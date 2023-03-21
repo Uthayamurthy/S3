@@ -5,6 +5,7 @@ from rich.table import Table
 from rich.prompt import Prompt
 from rich.table import Table
 from rich.panel import Panel
+from essentials import *
 import pymysql as pym
 import random
 
@@ -37,17 +38,6 @@ while connected == False:
 current_table = None
 prompt_text = 'mysql> '
 
-def check_query_end(query):
-    query = query.strip()
-    
-    if query == '' or query == ' ':
-        return True
-    
-    if query.endswith(';'):
-        return True
-    else:
-        return False
-
 def input_query():
     global prompt_text
 
@@ -60,19 +50,6 @@ def input_query():
         query += input('\u001b[33;1m' + ' '*6 + '->' + '\u001b[0m')
     
     return query
-
-def get_primary_command(query):
-    
-    if query == '' or query == ' ':
-        query = None
-        return query
-    
-    x = query.split(' ')
-
-    if len(x) == 1:
-        return x[0].replace(';', '').lower()
-    else:
-        return x[0].lower()
 
 with conn:
     with conn.cursor() as cursor:
