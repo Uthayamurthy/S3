@@ -7,8 +7,6 @@ from rich.table import Table
 from rich.panel import Panel
 from essentials import *
 import pymysql as pym
-import random
-
 try:
     import readline
 except:
@@ -17,10 +15,6 @@ except:
 console = Console()
 
 connected = False
-
-error_emojis = ['unamused', 'slightly_frowning_face', 'worried', 'face_with_raised_eyebrow', 'fearful_face', 'yawning_face', 'astonished_face', 'anxious_face_with_sweat', 'anguished_face', 'cold_face', 'confused_face', 'pensive_face', 'dizzy_face', 'hot_face']
-success_emojis = ['partying_face', 'thumbs_up', 'slightly_smiling_face', 'laughing', 'grinning_face', 'grinning_face_with_smiling_eyes', 'grinning_face_with_big_eyes', 'smiling_face_with_smiling_eyes', 'smiling_face_with_sunglasses', 'smiling_face_with_halo', 'winking_face', 'nerd_face']
-
 
 while connected == False:
     host = Prompt.ask('[bold blue]Enter Host Address', default='localhost')
@@ -33,7 +27,7 @@ while connected == False:
         conn = pym.connect(host=host, user=uname, password=passwd)
         connected = True
     except Exception as e:
-        console.print(f':{random.choice(error_emojis)}: [bold red] {e.args[1]}')
+        console.print(f'{error_emoji()} [bold red] {e.args[1]}')
     
 current_table = None
 prompt_text = 'mysql> '
@@ -53,7 +47,7 @@ def input_query():
 
 with conn:
     with conn.cursor() as cursor:
-        console.print(f'\n[bold green]Connected [/]:{random.choice(success_emojis)}: \n')
+        console.print(f'\n[bold green]Connected [/]{success_emoji()} \n')
         print()
         while True:
             try:
@@ -110,9 +104,8 @@ with conn:
                     cursor.execute(query)
                     query = query.split()
                     current_table = query[1].replace(";", "").strip().upper()
-                    console.print(f':{random.choice(success_emojis)}: Using { current_table } ')
+                    console.print(f'{success_emoji()} Using { current_table } ')
                     prompt_text = f'[bold dark_olive_green1]mysql[{current_table}]> '
-
 
                 else:
                     cursor.execute(query)
@@ -123,12 +116,12 @@ with conn:
 
                 if command in ['insert', 'delete', 'update', 'alter']:
                     rows_affected = cursor.rowcount            
-                    console.print(f'[bold green] Query Ok[/] :{random.choice(success_emojis)}: , {rows_affected} rows affected.')                
+                    console.print(f'[bold green] Query Ok[/] {success_emoji()} , {rows_affected} rows affected.')                
                 elif command in ['select', 'desc', 'describe']:
                     rows_set = cursor.rowcount            
-                    console.print(f'[bold green] Query Ok[/] :{random.choice(success_emojis)}: , {rows_set} rows in set.')
+                    console.print(f'[bold green] Query Ok[/] {success_emoji()} , {rows_set} rows in set.')
                 else:
-                    console.print(f'[bold green] Query Ok[/] :{random.choice(success_emojis)}:')
+                    console.print(f'[bold green] Query Ok[/] {success_emoji()}')
 
             except Exception as e:
-                console.print(f':{random.choice(error_emojis)}: [bold red] {e.args[1]}')
+                console.print(f'{error_emoji()} [bold red] {e.args[1]}')
