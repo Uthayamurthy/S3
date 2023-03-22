@@ -48,7 +48,10 @@ class QueryProcessor:
             raw_data = self.cursor.fetchall()
             data = '[bold cyan]'
             for d in raw_data:
-                data += d[0] + '\n'
+                if raw_data.index(d) != len(raw_data) - 1:
+                    data += d[0] + '\n'
+                else: # Avoid new line character in the last item.
+                    data += d[0]
             query = query.split()
 
             self.console.print(Panel.fit(data, title='[bold dark_green]'+ query[1].upper().replace(';', '')))
