@@ -4,6 +4,7 @@ from rich.console import Console
 from rich.prompt import Prompt
 from essentials import *
 from query_processor import QueryProcessor
+from shortcuts import ShortcutProcessor
 import pymysql as pym
 try:
     import readline
@@ -35,11 +36,12 @@ def input_query():
 
     query = input('\u001b[33;1m' + prompt_text + '\u001b[0m') # Using input instead of rich's prompt to avoid blankline bug
 
-    while check_query_end(query) == False:
+    if ShortcutProcessor.check_shortcuts(query) == False: # If not shortcut, then keep asking input until ';' is encountered. 
+        while check_query_end(query) == False:
 
-        if not query.endswith(' '):
-            query += ' '
-        query += input('\u001b[33;1m' + ' '*6 + '->' + '\u001b[0m')
+            if not query.endswith(' '):
+                query += ' '
+            query += input('\u001b[33;1m' + ' '*6 + '->' + '\u001b[0m')
     
     return query
 
@@ -47,11 +49,10 @@ with conn:
     with conn.cursor() as cursor:
         console.print(f'\n[bold green]Connected [/]{success_emoji()} \n')
         print()
-        Q = QueryProcessor(cursor, console)
+        Q = QueryProcessor(cursor, console, conn)
         while True:
             try:
                 query = input_query()
-                print()
                 command = get_primary_command(query)
 
                 if command == 'exit':

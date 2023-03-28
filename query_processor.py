@@ -4,18 +4,34 @@ from essentials import *
 from rich.table import Table
 from rich.table import Table
 from rich.panel import Panel
+from shortcuts import ShortcutProcessor
 
 class QueryProcessor:
 
-    def __init__(self, cursor, console):
+    def __init__(self, cursor, console, conn):
         self.cursor = cursor
         self.console = console
         self.change_in_prompt = False
+        self.sp = ShortcutProcessor()
+        self.conn = conn
+        self.curr_table = None
 
     def parse(self, query): # Parses and Executes the Query
+        nes = False # Non Executable Shortcut
+        s_ack = None
+
+        if self.sp.check_shortcuts(query):
+            sc = self.sp.process_shortcuts(query)
+            nes = sc[0]
+            query = sc[1]
+            s_ack = sc[2]
+
         self.command = get_primary_command(query)
 
-        if self.command in ['select', 'desc', 'describe']:
+        if nes == True:
+            pass
+
+        elif self.command in ['select', 'desc', 'describe']:
             self.cursor.execute(query)
 
             column_names = [i[0] for i in self.cursor.description]
@@ -65,16 +81,20 @@ class QueryProcessor:
             self.new_prompt = f'mysql[{current_db}]> '
 
         else:
+            print('Else Executed !')
+            print(query)
             self.cursor.execute(query)
             data = self.cursor.fetchall()
             for row in data:
                 print(row)
             self.conn.commit()
         
-        self.acknowledge_query()
+        self.acknowledge_query(s_ack)
 
-    def acknowledge_query(self): # Acknowleges Successful Queries.
-        if self.command in ['insert', 'delete', 'update', 'alter']:
+    def acknowledge_query(self, s_ack=None): # Acknowleges Successful Queries.
+        if s_ack != None:
+            self.console.print(f'[bold green] {s_ack} [/] {success_emoji()}')
+        elif self.command in ['insert', 'delete', 'update', 'alter']:
             rows_affected = self.cursor.rowcount            
             self.console.print(f'[bold green] Query Ok[/] {success_emoji()} , {rows_affected} rows affected.')                
         elif self.command in ['select', 'desc', 'describe']:
