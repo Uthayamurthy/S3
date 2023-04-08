@@ -81,8 +81,6 @@ class QueryProcessor:
             self.new_prompt = f'mysql[{current_db}]> '
 
         else:
-            print('Else Executed !')
-            print(query)
             self.cursor.execute(query)
             data = self.cursor.fetchall()
             for row in data:

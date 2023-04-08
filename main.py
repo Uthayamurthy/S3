@@ -18,12 +18,14 @@ connected = False
 while connected == False:
     host = Prompt.ask('[bold blue]Enter Host Address', default='localhost')
     print()
+    port = int(Prompt.ask('[bold blue]Enter Port', default='3306'))
+    print()
     uname = Prompt.ask('[bold blue]Enter Username', default='root')
     print()
     passwd = Prompt.ask('[bold blue]Enter Password [/] [bold dark_goldenrod](:warning: Don\'t worry if you can\'t see it )', password=True)
     print()
     try:
-        conn = pym.connect(host=host, user=uname, password=passwd)
+        conn = pym.connect(host=host, user=uname, password=passwd, port = port)
         connected = True
     except Exception as e:
         console.print(f'{error_emoji()} [bold red] {e.args[1]}')
