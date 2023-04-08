@@ -6,12 +6,20 @@ from essentials import *
 from query_processor import QueryProcessor
 from shortcuts import ShortcutProcessor
 import pymysql as pym
+import pyfiglet
 try:
     import readline
 except:
     import pyreadline3 as readline
 
 console = Console()
+
+head = pyfiglet.figlet_format("S 3", font="3-d")
+subhead = pyfiglet.figlet_format("Simplified SQL Shell", font="bubble")
+author = pyfiglet.figlet_format("Author - R Uthaya Murthy", font="digital")
+console.print(f'[bold deep_sky_blue4]{head}')
+console.print(f'[bold cyan3]{subhead}')
+console.print(f'[bold cyan1]{author}')
 
 connected = False
 
