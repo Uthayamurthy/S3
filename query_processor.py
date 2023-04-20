@@ -19,17 +19,23 @@ class QueryProcessor:
     def parse(self, query): # Parses and Executes the Query
         nes = False # Non Executable Shortcut
         s_ack = None
+        bulk = False
 
         if self.sp.check_shortcuts(query):
             sc = self.sp.process_shortcuts(query)
             nes = sc[0]
             query = sc[1]
             s_ack = sc[2]
+            bulk = sc[3]
 
-        self.command = get_primary_command(query)
+        if bulk == False:
+            self.command = get_primary_command(query)
 
-        if nes == True:
+        if nes == True and bulk == False:
             pass
+
+        elif bulk == True:
+            self.bulk_execute(query)
 
         elif self.command in ['select', 'desc', 'describe']:
             self.cursor.execute(query)
@@ -88,6 +94,16 @@ class QueryProcessor:
             self.conn.commit()
         
         self.acknowledge_query(s_ack)
+
+    def bulk_execute(self, queries):
+        for query in queries:
+            print(f'Executing {query}')
+            self.cursor.execute(query)
+            data = self.cursor.fetchall()
+            for row in data:
+                print(row)
+            self.conn.commit()
+
 
     def acknowledge_query(self, s_ack=None): # Acknowleges Successful Queries.
         if s_ack != None:
