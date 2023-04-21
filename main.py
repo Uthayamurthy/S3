@@ -16,7 +16,7 @@ console = Console()
 
 head = pyfiglet.figlet_format("S 3", font="3-d")
 subhead = pyfiglet.figlet_format("Simplified SQL Shell", font="bubble")
-author = pyfiglet.figlet_format("Author - R Uthaya Murthy", font="digital")
+author = pyfiglet.figlet_format("Copyright (C) 2023 R Uthaya Murthy", font="digital")
 console.print(f'[bold deep_sky_blue4]{head}')
 console.print(f'[bold cyan3]{subhead}')
 console.print(f'[bold cyan1]{author}')
