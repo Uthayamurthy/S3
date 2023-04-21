@@ -5,6 +5,7 @@ from rich.table import Table
 from rich.table import Table
 from rich.panel import Panel
 from shortcuts import ShortcutProcessor
+from docs import app_help, app_about
 
 class QueryProcessor:
 
@@ -20,6 +21,8 @@ class QueryProcessor:
         nes = False # Non Executable Shortcut
         s_ack = None
         bulk = False
+
+        query = query.strip()
 
         if self.sp.check_shortcuts(query):
             sc = self.sp.process_shortcuts(query)
@@ -85,6 +88,38 @@ class QueryProcessor:
             self.console.print(f'{success_emoji()} [bold spring_green3] Using { current_db } ')
             self.change_in_prompt = True
             self.new_prompt = f'mysql[{current_db}]> '
+        
+        elif self.command == 'help':
+            s_ack = 'skip'
+            query = query.split()
+            
+            if len(query) > 1:
+                query[1] = query[1].replace(";", "").strip().lower()
+                if query[1] != '' and query[1] != ' ':
+                    if query[1] == 'shortcuts':
+                        self.console.print(app_help('shortcuts'))
+                    else:
+                        raise Exception('Invalid argument for help statement !')
+                else:
+                    self.console.print(app_help())
+            else:
+                self.console.print(app_help())
+
+        elif self.command == 'about':
+            s_ack = 'skip'
+            query = query.split()
+            if len(query) > 1:
+                query[1] = query[1].replace(";", "").strip().lower()
+                if query[1] != '' and query[1] != ' ':
+                    query[1] = query[1].replace(";", "").strip()
+                    if query[1].lower() == 'license':
+                        self.console.print(app_about('license'))
+                    else:
+                        raise Exception('Invalid argument for about statement !')
+                else:
+                    self.console.print(app_about())
+            else:
+                self.console.print(app_about())
 
         else:
             self.cursor.execute(query)
@@ -105,8 +140,11 @@ class QueryProcessor:
             self.conn.commit()
 
 
-    def acknowledge_query(self, s_ack=None): # Acknowleges Successful Queries.
-        if s_ack != None:
+    def acknowledge_query(self, s_ack=None): # Acknowleges Successful Queries.   
+        
+        if s_ack == 'skip':
+            print()
+        elif s_ack != None:
             self.console.print(f'[bold green] {s_ack} [/] {success_emoji()}')
         elif self.command in ['insert', 'delete', 'update', 'alter']:
             rows_affected = self.cursor.rowcount            
