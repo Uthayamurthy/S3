@@ -3,7 +3,7 @@
 # Even Shortcut returns a tuple.
 # (nes, query, s_ack, bulk)
 
-from auto_insert import auto_insert
+from auto_insert import auto_insert, set_locale
 
 class ShortcutProcessor:
 
@@ -73,6 +73,15 @@ class ShortcutProcessor:
                 return (False, f'INSERT INTO {self.table}({squery[2]}) Values({squery[1]});', None, False)
             elif len(squery) == 4:
                 return (False, f'INSERT INTO {squery[3]}({squery[2]}) Values({squery[1]});', None, False)
-            
+        
+        elif squery.startswith('!l'):
+            squery = list(squery.split(' '))
+            if len(squery) < 2:
+                raise Exception('Expected a locale name.')
+
+            locale = squery[1]
+            set_locale(locale)
+            return (True, '', f'Set Shortcut locale to {locale}', False)
+
         else:
             raise Exception('Invalid Shortcut, please try again.')
