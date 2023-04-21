@@ -23,6 +23,8 @@ console.print(f'[bold cyan1]{author}')
 
 connected = False
 
+console.print('[bold bright_blue]:warning: Default Values in brackets, just press enter to use them. \n')
+
 while connected == False:
     host = Prompt.ask('[bold blue]Enter Host Address', default='localhost')
     print()
@@ -57,8 +59,9 @@ def input_query():
 
 with conn:
     with conn.cursor() as cursor:
-        console.print(f'\n[bold green]Connected [/]{success_emoji()} \n')
-        print()
+        console.print(f'\n[bold green]Connected [/]{success_emoji()}\n')
+        console.print(f'[dark_sea_green]Unsure of what to do ? Just type [/dark_sea_green][bold green] help; [/bold green][dark_sea_green] and press Enter ![/dark_sea_green]')
+        console.print(f'[dark_sea_green]Want to exit S3 ? Just type [/dark_sea_green][bold green] exit; [/bold green][dark_sea_green] and press Enter ![/dark_sea_green]\n')
         Q = QueryProcessor(cursor, console, conn)
         while True:
             try:
