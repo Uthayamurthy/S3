@@ -137,6 +137,8 @@ def parse_arg(args):
             vals = ['male', 'female']
             data += f' "{choice(vals)}",'
         
+        elif arg.startwith('null') or arg.startwith('none'):
+            data += f' NULL,'
         else:
             data += f' "{arg}",'
 
