@@ -157,11 +157,3 @@ def get_int_arg(arg):
     args = a[1][:-1] # Ignores the ')'
     args = list(args.split(','))
     return args
-
-if __name__ == '__main__':
-    import readline
-
-    while True:
-        x = input('> ')
-        x = x.split(' ')
-        print(auto_insert(x, 'my_table'))

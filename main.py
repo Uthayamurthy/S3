@@ -81,4 +81,7 @@ with conn:
                         prompt_text = Q.new_prompt
                         
             except Exception as e:
-                console.print(f'{error_emoji()} [bold red] {e.args[1]}')
+                try:
+                    console.print(f'{error_emoji()} [bold red] {e.args[1]}')
+                except:
+                    console.print(f'{error_emoji()} [bold red] {e}')

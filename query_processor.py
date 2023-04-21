@@ -132,7 +132,6 @@ class QueryProcessor:
 
     def bulk_execute(self, queries):
         for query in queries:
-            print(f'Executing {query}')
             self.cursor.execute(query)
             data = self.cursor.fetchall()
             for row in data:
