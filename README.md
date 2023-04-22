@@ -1,7 +1,13 @@
 # S3 - Simplified SQL Shell
-## S3 is a user-friendly, cross-platform SQL Shell which features **colourful text** and **emojis**. Along with its visually engaging interface, S3 is packed with helpful features, including **convinient shortcuts**, making it easy to manage your databases and execute SQL Queries. **Primarily Intended for Educational Purposes**
+## S3 is a user-friendly, cross-platform SQL Shell which features **colourful text** and **emojis**. Along with its visually engaging interface, S3 is packed with helpful features, including **convinient shortcuts**, making it easy to manage your databases and execute SQL Queries. **Primarily Intended for Educational Purposes**  
 
-![](https://github.com/Uthayamurthy/S3/blob/main/demo/S3_quick_demo.gif)
+![](https://github.com/Uthayamurthy/S3/blob/main/demo/S3_quick_demo.gif)  
+
+> ## Also have a Look at the longer [Demo Video](https://drive.google.com/file/d/1Y3TuhlDBqaXAJxNWRDDgZP7lIiGiyo2I/view)
+
+## License
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 # Supported Platforms
 ### - Any Linux Distro (Tested on OpenSUSE Tumbleweed)
