@@ -26,19 +26,27 @@ connected = False
 console.print('[bold bright_blue]:warning: Default Values in brackets, just press enter to use them. \n')
 
 while connected == False:
-    host = Prompt.ask('[bold blue]Enter Host Address', default='localhost')
-    print()
-    port = int(Prompt.ask('[bold blue]Enter Port', default='3306'))
-    print()
-    uname = Prompt.ask('[bold blue]Enter Username', default='root')
-    print()
-    passwd = Prompt.ask('[bold blue]Enter Password [/] [bold dark_goldenrod](:warning: Don\'t worry if you can\'t see it )', password=True)
-    print()
     try:
-        conn = pym.connect(host=host, user=uname, password=passwd, port = port)
-        connected = True
-    except Exception as e:
-        console.print(f'{error_emoji()} [bold red] {e.args[1]}')
+        host = Prompt.ask('[bold blue]Enter Host Address', default='localhost')
+        print()
+        port = int(Prompt.ask('[bold blue]Enter Port', default='3306'))
+        print()
+        uname = Prompt.ask('[bold blue]Enter Username', default='root')
+        print()
+        passwd = Prompt.ask('[bold blue]Enter Password [/] [bold dark_goldenrod](:warning: Don\'t worry if you can\'t see it )', password=True)
+        print()
+        try:
+            conn = pym.connect(host=host, user=uname, password=passwd, port = port)
+            connected = True
+        except Exception as e:
+            console.print(f'{error_emoji()} [bold red] {e.args[1]}')
+    except KeyboardInterrupt:
+                print()
+                user_ack = Prompt.ask('[bold red]Do you want to quit ?', default='y')
+                print()
+                if user_ack.lower() == 'y':
+                    console.print(f'{error_emoji()} [bold blue] Bye !')
+                    exit()
     
 current_table = None
 prompt_text = 'mysql> '
@@ -69,7 +77,12 @@ with conn:
                 command = get_primary_command(query)
 
                 if command == 'exit':
-                    break
+                    print()
+                    user_ack = Prompt.ask('[bold red]Do you want to quit ?', default='y')
+                    print()
+                    console.print(f'{error_emoji()} [bold blue] Bye !')
+                    if user_ack.lower() == 'y':                    
+                        exit()
                 
                 elif command == None:
                     continue
@@ -85,3 +98,11 @@ with conn:
                     console.print(f'{error_emoji()} [bold red] {e.args[1]}')
                 except:
                     console.print(f'{error_emoji()} [bold red] {e}')
+            
+            except KeyboardInterrupt:
+                print()
+                user_ack = Prompt.ask('[bold red]Do you want to quit ?', default='y')
+                print()
+                if user_ack.lower() == 'y':                    
+                    console.print(f'{error_emoji()} [bold blue] Bye !')
+                    exit()
