@@ -197,6 +197,32 @@ num(100, 500)
 ```
 > You can also use '**int**' instead of '**num**' in all the above commands.
 
+#### Date
+**Datatype - Date**  
+Generates a date in default SQL Format.
+```
+date(arg1,arg2)
+```
+- arg1 [optional] - Set the Starting Year. **Default-1970**
+- arg2 [optional] - Set the Ending Year. **Deafult-Present-Year**
+
+#### Date Of Birth
+**Datatype - Date**  
+Generates a date of birth in default SQL date Format.
+```
+dob(arg1,arg2)
+```
+- arg1 [optional] - Set the Minimum Age. **Default-0**
+- arg2 [optional] - Set the Maximum Age. **Deafult-115**
+
+#### Color
+**Datatype - String**  
+Generates a random color name.
+```
+color
+```
+> **colour** can also be used instead of **color**
+
 #### Phone Number
 **Datatype - String**  
 Generates a phone number based on locale.

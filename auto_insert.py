@@ -3,6 +3,7 @@
 
 from faker import Faker
 from random import randint, choice
+import datetime as dt
 
 # Default locale English-India
 fake = Faker('en_IN')
@@ -98,6 +99,39 @@ def parse_arg(args):
                 else:
                     raise Exception('Invalid Argument for num.')
         
+        elif arg.startswith('date'):
+            if arg.find('(') == -1:
+                data += f' "{fake.date()}",'
+            else:
+                int_args = get_int_arg(arg)
+                if len(int_args) == 1:
+                    start_year = int(int_args[0])
+                    data += f''' "{fake.date_between(start_date=dt.date(start_year, 1, 1)).strftime('%Y-%m-%d')}",'''
+                elif len(int_args) == 2:
+                    start_year = int(int_args[0])
+                    end_year = int(int_args[1])
+                    data += f''' "{fake.date_between(start_date=dt.date(start_year, 1, 1), end_date=dt.date(end_year, 12, 31)).strftime('%Y-%m-%d')}",'''
+                else:
+                    raise Exception('Invalid Argument for date.')
+
+        elif arg.startswith('dob'):
+            if arg.find('(') == -1:
+                data += f' "{fake.date_of_birth()}",'
+            else:
+                int_args = get_int_arg(arg)
+                if len(int_args) == 1:
+                    min_age = int(int_args[0])
+                    data += f''' "{fake.date_of_birth(minimum_age=min_age)}",'''
+                elif len(int_args) == 2:
+                    min_age = int(int_args[0])
+                    max_age = int(int_args[1])
+                    data += f''' "{fake.date_of_birth(minimum_age=min_age, maximum_age=max_age)}",'''
+                else:
+                    raise Exception('Invalid Argument for date of birth.')
+
+        elif arg.startswith('color') or arg.startswith('colour'):
+            data += f' "{fake.color_name()}",'
+
         elif arg.startswith('phone'):
             data += f' "{fake.phone_number()}",'
         
