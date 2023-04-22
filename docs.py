@@ -333,6 +333,7 @@ Example -
 about_md = """
 # ABOUT - S3 (Simplified SQL Shell)
 ## Author - R Uthaya Murthy (https://github.com/Uthayamurthy)
+## Version - 1.0
 ## Source - https://github.com/Uthayamurthy/S3
 ## License - MIT License
 

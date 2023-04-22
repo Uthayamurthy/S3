@@ -7,10 +7,8 @@ from query_processor import QueryProcessor
 from shortcuts import ShortcutProcessor
 import pymysql as pym
 import pyfiglet
-try:
-    import readline
-except:
-    import pyreadline3 as readline
+import readline
+from sys import exit
 
 console = Console()
 
