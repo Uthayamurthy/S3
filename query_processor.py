@@ -4,6 +4,7 @@ from essentials import *
 from rich.table import Table
 from rich.table import Table
 from rich.panel import Panel
+from rich.prompt import Prompt
 from shortcuts import ShortcutProcessor
 from docs import app_help, app_about
 
@@ -80,6 +81,17 @@ class QueryProcessor:
             query = query.split()
 
             self.console.print(Panel.fit(data, title='[bold dark_green]'+ query[1].upper().replace(';', '')))
+
+        elif self.command == 'drop':
+            user_ack = Prompt.ask('[bold red]Are you sure you want to do this ?', default='y')
+            if user_ack.lower() == 'y':
+                self.cursor.execute(query)
+                data = self.cursor.fetchall()
+                for row in data:
+                    print(row)
+                self.conn.commit()
+            else:
+                s_ack = 'skip'
 
         elif self.command == 'use':
             self.cursor.execute(query)
